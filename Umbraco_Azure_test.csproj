@@ -4,6 +4,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="wwwroot\media\Git Push → Automatic Build → Automatic Deploy - visual selection.png" />
+    <Content Include="wwwroot\media\Image Aug 22, 2025, 04_29_44 PM.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Umbraco.Cms" Version="13.5.2" />
@@ -16,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\NewFolder\" />
+    <None Include="Umbraco_Azure_test.sln" />
+    <None Include="wwwroot\media\.gitkeep" />
   </ItemGroup>
 
   <PropertyGroup>
