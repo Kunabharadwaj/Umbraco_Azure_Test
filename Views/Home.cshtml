@@ -1,0 +1,25 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Home>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    Layout = null;
+}
+@{
+    var selection = Umbraco.ContentAtRoot().FirstOrDefault()
+        .ChildrenOfType("home")
+        .Where(x => x.IsVisible());
+    var heading = Model.Heading;
+    var body = Model.Body;
+}
+
+<h1>@heading</h1>
+<p>@body</p>
+
+<ul>
+    @foreach (var item in selection)
+    {
+        <li>
+            <a href="@item.Url()">@item.Name()</a>
+        </li>
+    }
+</ul>
