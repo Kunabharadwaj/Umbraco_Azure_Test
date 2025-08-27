@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -27,20 +27,28 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish -c Release -o ./publish
+
+      - name: Create required directories
+        run: |
+          New-Item -ItemType Directory -Path "./publish/media" -Force
+          New-Item -ItemType Directory -Path "./publish/media/created-packages" -Force
+          New-Item -ItemType Directory -Path "./publish/App_Data" -Force
+          New-Item -ItemType Directory -Path "./publish/App_Data/TEMP" -Force
+          New-Item -ItemType Directory -Path "./publish/App_Data/Logs" -Force
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./publish
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
@@ -62,4 +70,3 @@ jobs:
           app-name: 'umbraco13test'
           slot-name: 'Production'
           package: .
-          
