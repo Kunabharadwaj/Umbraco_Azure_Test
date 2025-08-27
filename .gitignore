@@ -475,5 +475,8 @@ appsettings-schema.*.json
 # Log files
 /umbraco/Logs/
 
-# Media files
-/wwwroot/media/
+# Media files - allow directory structure but ignore content
+/wwwroot/media/*
+!/wwwroot/media/.gitkeep
+
+
