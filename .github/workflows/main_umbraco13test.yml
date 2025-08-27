@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -27,33 +27,34 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish -c Release -o ./publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./publish
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+          path: ./deployment-package
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C4AEBE0886EF451A864CAD448BFBA367 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A233FACE9AE14C32BDD0093EF2675405 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BA05C9F5AA9447E98DACB2D46F577CEA }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3E7E7055141449479655720F663F5378 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_13636F64C75042D781064AA1AF0BCD61 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BB838C79806C40B8AE83F57107C6BD53 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -61,5 +62,4 @@ jobs:
         with:
           app-name: 'umbraco13test'
           slot-name: 'Production'
-          package: .
-          
+          package: ./deployment-package
