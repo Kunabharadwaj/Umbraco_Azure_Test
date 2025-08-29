@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <None Include="Umbraco_Azure_test.sln" />
-    <None Include="Umbraco_Azure_test.test\Umbraco_Azure_test.test.csproj" />
     <None Include="wwwroot\media\.gitkeep" />
   </ItemGroup>
 
