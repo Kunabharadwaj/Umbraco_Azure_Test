@@ -6,6 +6,7 @@ builder.CreateUmbracoBuilder()
     .AddDeliveryApi()
     .AddComposers()
     .Build();
+builder.Services.AddHttpClient();
 
 WebApplication app = builder.Build();
 
